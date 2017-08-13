@@ -2,27 +2,34 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { BsJumbotron, BsButton } from './components/bootstrap.jsx';
 
-import dummyGenerator from './generators/dummy-generator';
-const dummyGeneratePassword = dummyGenerator(['foo', 'bar', 'dummy']);
-
 function getDisplayClass(value) {
-  if (value.length < 10)
+  if (value.length < 6)
     return 'display-1';
-  else if (value.length < 20)
+  else if (value.length < 6)
     return 'display-2';
-  else if (value.length < 30)
+  else if (value.length < 8)
     return 'display-3';
-  else if (value.length < 40)
+  else if (value.length < 10)
     return 'display-4';
-  else if (value.length < 50)
-    return 'display-5';
-  return 'display-6';
+  else if (value.length < 13)
+    return 'h1';
+  else if (value.length < 16)
+    return 'h2';
+  else if (value.length < 19)
+    return 'h3';
+  else if (value.length < 22)
+    return 'h4';
+  else if (value.length < 26)
+    return 'h5';
+  else if (value.length < 32)
+    return 'h6';
+
+  return 'small';
 }
 
 function PasswordDisplay(props) {
   const displayClass = getDisplayClass(props.value || '');
-  console.log('displayClass for', props.value, displayClass);
-  return <h1 className={displayClass}><code>{props.value}</code></h1>;
+  return <p className={displayClass}><code>{props.value}</code></p>;
 }
 
 class PasswordToolbar extends React.Component {
