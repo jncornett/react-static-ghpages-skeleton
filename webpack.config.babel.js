@@ -7,7 +7,12 @@ const rules = [
   {
     test: /\.jsx?/,
     exclude: /node_modules/,
-    use: ['babel-loader']
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: ['env', 'react']
+      }
+    }
   },
   {
     test: /\.css$/,
@@ -34,7 +39,14 @@ const plugins = [
       return module.context && module.context.indexOf('node_modules') != -1;
     }
   }),
-  new webpack.HotModuleReplacementPlugin
+  new webpack.HotModuleReplacementPlugin,
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery',
+    Popper: ['popper.js', 'default'],
+    React: 'react'
+  })
 ];
 
 module.exports = (env) => {
@@ -49,7 +61,7 @@ module.exports = (env) => {
 
   return {
     entry: {
-      app: './src/app.js'
+      index: './src/index.js'
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
