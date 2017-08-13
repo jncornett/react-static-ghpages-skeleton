@@ -18,3 +18,9 @@ export class CountOption extends BaseOption {
     super('count', text, defaultCount);
   }
 };
+
+export class BooleanOption extends BaseOption {
+  constructor(text, defaultValue) {
+    super('boolean', text, !!defaultValue);
+  }
+}

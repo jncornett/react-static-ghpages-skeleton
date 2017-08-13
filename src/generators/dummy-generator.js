@@ -11,7 +11,7 @@ class DummyGenerator {
   }
 
   asFunction() {
-    return () => this.generate();
+    return () => Promise.resolve(this.generate());
   }
 }
 

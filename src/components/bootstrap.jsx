@@ -88,3 +88,20 @@ export function BsCountInput(props) {
     </div>
   );
 }
+
+export function BsCheckbox(props) {
+  return (
+    <div className="form-group">
+      <div className="form-check">
+        <label className="form-check-label">
+          <input
+              type="checkbox"
+              className="form-check-input"
+              checked={props.value}
+              onChange={(e) => props.onChange && props.onChange(e.target.checked)} />
+          &nbsp;{props.label}
+        </label>
+      </div>
+    </div>
+  );
+}

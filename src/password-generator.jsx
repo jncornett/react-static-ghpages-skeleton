@@ -5,8 +5,24 @@ import { BsJumbotron, BsButton } from './components/bootstrap.jsx';
 import dummyGenerator from './generators/dummy-generator';
 const dummyGeneratePassword = dummyGenerator(['foo', 'bar', 'dummy']);
 
+function getDisplayClass(value) {
+  if (value.length < 10)
+    return 'display-1';
+  else if (value.length < 20)
+    return 'display-2';
+  else if (value.length < 30)
+    return 'display-3';
+  else if (value.length < 40)
+    return 'display-4';
+  else if (value.length < 50)
+    return 'display-5';
+  return 'display-6';
+}
+
 function PasswordDisplay(props) {
-  return <h1 className="display-1"><code>{props.value}</code></h1>;
+  const displayClass = getDisplayClass(props.value || '');
+  console.log('displayClass for', props.value, displayClass);
+  return <h1 className={displayClass}><code>{props.value}</code></h1>;
 }
 
 class PasswordToolbar extends React.Component {
@@ -45,22 +61,19 @@ class PasswordToolbar extends React.Component {
 export default class PasswordGenerator extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      generatedPassword: this.props.generatorFunction()
-    };
+    this.state = {};
+    this.props.generatorFunction().then(pass => this.setState({generatedPassword: pass}));
     this.handleGenerate = this.handleGenerate.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.generatorFunction != nextProps.generatorFunction) {
-      this.setState({generatedPassword: nextProps.generatorFunction()});
+      nextProps.generatorFunction().then(pass => this.setState({generatedPassword: pass}));
     }
   }
 
   handleGenerate() {
-    this.setState({
-      generatedPassword: this.props.generatorFunction()
-    });
+    this.props.generatorFunction().then(pass => this.setState({generatedPassword: pass}));
   }
 
   render() {

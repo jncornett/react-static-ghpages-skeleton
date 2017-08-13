@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
 
-import { BsContainer, BsSelector, BsCountInput, BsRow, BsCol } from './components/bootstrap.jsx';
+import { BsContainer, BsSelector, BsCountInput, BsCheckbox, BsRow, BsCol } from './components/bootstrap.jsx';
 
 export default function PasswordOptions(props) {
   const options = Object.entries(props.generatorOptions).map(([k, v]) => {
@@ -17,6 +17,14 @@ export default function PasswordOptions(props) {
       case 'count':
         return (
           <BsCountInput
+              key={k}
+              label={v.option.text}
+              value={v.value}
+              onChange={(val) => props.onChangeOption && props.onChangeOption(k, val)} />
+        );
+      case 'boolean':
+        return (
+          <BsCheckbox
               key={k}
               label={v.option.text}
               value={v.value}

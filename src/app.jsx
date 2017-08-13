@@ -2,12 +2,16 @@ import { BsContainer } from './components/bootstrap.jsx';
 import PasswordGenerator from './password-generator.jsx';
 import PasswordOptions from './password-options.jsx';
 
-import PathGenerator from './generators/path-generator';
+import ComplexGenerator from './generators/complex-generator';
+import MnemonicGenerator from './generators/mnemonic-generator';
 import WordGenerator from './generators/word-generator';
+//import PathGenerator from './generators/path-generator';
 
 const AVAILABLE_GENERATORS = {
-  PathGenerator,
-  WordGenerator
+  ComplexGenerator,
+  MnemonicGenerator,
+  WordGenerator,
+  //PathGenerator
 };
 
 function settingKey(generator, setting) {

@@ -5,12 +5,12 @@ const webpack = require('webpack');
 
 const rules = [
   {
-    test: /\.jsx?/,
+    test: /\.jsx?$/,
     exclude: /node_modules/,
     use: {
       loader: 'babel-loader',
       options: {
-        presets: ['env', 'react']
+        presets: ['es2015', 'react']
       }
     }
   },
@@ -28,6 +28,10 @@ const rules = [
       fallback: 'style-loader',
       use: ['css-loader', 'less-loader']
     })
+  },
+  {
+    test: /\.json$/,
+    use: ['json-loader']
   }
 ];
 
