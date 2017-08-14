@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require('webpack');
 
+let buildDir = path.resolve(__dirname, 'dist');
+
 const rules = [
   {
     test: /\.jsx?$/,
@@ -52,17 +54,14 @@ const plugins = [
     'window.jQuery': 'jquery',
     Popper: ['popper.js', 'default'],
     React: 'react'
-  })
+  }),
+  new HtmlWebpackPlugin({ template: 'src/index.ejs' })
 ];
 
 module.exports = (env) => {
-  if (env && env.production) {
-    // prod only options
-  } else {
-    // dev only options
-    plugins.push(new HtmlWebpackPlugin({
-      template: 'src/index.ejs'
-    }));
+  env = env || {};
+  if (env.ghpages) {
+    buildDir = path.resolve(__dirname, 'docs');
   }
 
   return {
@@ -70,7 +69,7 @@ module.exports = (env) => {
       index: './src/index.js'
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: buildDir,
       filename: '[name].bundle.js',
       chunkFilename: '[name].[chunkhash].bundle.js'
     },
