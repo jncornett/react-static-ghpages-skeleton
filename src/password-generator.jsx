@@ -9,19 +9,19 @@ function getDisplayClass(value) {
     return 'display-2';
   else if (value.length < 8)
     return 'display-3';
-  else if (value.length < 10)
+  else if (value.length < 9)
     return 'display-4';
   else if (value.length < 13)
     return 'h1';
   else if (value.length < 16)
     return 'h2';
-  else if (value.length < 19)
+  else if (value.length < 18)
     return 'h3';
-  else if (value.length < 22)
+  else if (value.length < 21)
     return 'h4';
-  else if (value.length < 26)
+  else if (value.length < 25)
     return 'h5';
-  else if (value.length < 32)
+  else if (value.length < 31)
     return 'h6';
 
   return 'small';
