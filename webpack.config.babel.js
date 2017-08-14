@@ -61,7 +61,7 @@ const plugins = [
 module.exports = (env) => {
   env = env || {};
   if (env.ghpages) {
-    buildDir = path.resolve(__dirname, 'docs');
+    buildDir = path.resolve(__dirname);
   }
 
   return {
