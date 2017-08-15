@@ -44,6 +44,11 @@ class PasswordToolbar extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.copied != this.state.copied ||
+      nextProps.value != this.props.value;
+  }
+
   render() {
     return (
       <div className="btn-toolbar">
