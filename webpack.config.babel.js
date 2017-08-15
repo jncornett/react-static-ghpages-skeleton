@@ -5,31 +5,19 @@ const webpack = require('webpack');
 
 let buildDir = path.resolve(__dirname, 'dist');
 
+const babelOptions = {
+  presets: ['stage-2', 'react'],
+  plugins: []
+};
+
 const rules = [
   {
     test: /\.jsx?$/,
     exclude: /node_modules/,
     use: {
       loader: 'babel-loader',
-      options: {
-        presets: ['es2015', 'stage-2', 'react']
-      }
+      options: babelOptions
     }
-  },
-  {
-    test: /\.css$/,
-    use: ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-      use: 'css-loader'
-    })
-  },
-  {
-    test: /\.less$/,
-    exclude: /node_modules/,
-    use: ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-      use: ['css-loader', 'less-loader']
-    })
   },
   {
     test: /\.json$/,
@@ -40,9 +28,7 @@ const rules = [
 ];
 
 const plugins = [
-  new ExtractTextPlugin("style.css"),
-  new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
-  new webpack.HotModuleReplacementPlugin,
+  new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
   new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
@@ -53,27 +39,45 @@ const plugins = [
   new HtmlWebpackPlugin({ template: 'src/index.ejs' })
 ];
 
+const entry = {
+  index: [
+    './src/index.js'
+  ]
+};
+
 module.exports = (env) => {
   env = env || {};
   if (env.production) {
     plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
+    plugins.push(new ExtractTextPlugin('style.css'));
+    rules.push({
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader'
+      })
+    });
+    babelOptions.presets.unshift('es2015');
+  } else {
+    babelOptions.presets.unshift(['es2015', { modules: false }]);
+    babelOptions.plugins.push('react-hot-loader/babel');
+    plugins.push(new webpack.HotModuleReplacementPlugin);
+    rules.push({
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    });
+    entry.index.unshift('react-hot-loader/patch');
   }
 
   return {
-    entry: {
-      index: './src/index.js'
-    },
+    entry: entry,
     output: {
       path: buildDir,
       filename: '[name].bundle.js',
       chunkFilename: '[name].[chunkhash].bundle.js'
     },
-    module: {
-      rules: rules,
-    },
-    devServer: {
-      hot: true
-    },
+    module: { rules: rules },
+    devServer: { hot: true },
     devtool: 'cheap-module-source-map',
     plugins: plugins
   };
