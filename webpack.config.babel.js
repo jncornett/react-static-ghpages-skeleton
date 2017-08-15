@@ -41,12 +41,7 @@ const rules = [
 
 const plugins = [
   new ExtractTextPlugin("style.css"),
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks(module, count) {
-      return module.context && module.context.indexOf('node_modules') != -1;
-    }
-  }),
+  new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
   new webpack.HotModuleReplacementPlugin,
   new webpack.ProvidePlugin({
     $: 'jquery',
@@ -60,8 +55,8 @@ const plugins = [
 
 module.exports = (env) => {
   env = env || {};
-  if (env.ghpages) {
-    buildDir = path.resolve(__dirname);
+  if (env.production) {
+    plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
   }
 
   return {
@@ -79,7 +74,7 @@ module.exports = (env) => {
     devServer: {
       hot: true
     },
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-source-map',
     plugins: plugins
   };
 };

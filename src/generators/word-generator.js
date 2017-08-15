@@ -18,9 +18,12 @@ function generate(words, options) {
 const WordGenerator = new GeneratorInfo(
   'Word',
   function(options) {
-    return fetch(WORD_LIST_URL)
-      .then(response => response.json())
-      .then(json => generate(json, options));
+    return import('./data/english-words.json').then(words => {
+      const pass = [];
+      for (let i = 0; i < options.minWords; i++)
+        pass.push(randomChoice(words));
+      return pass.join('');
+    });
   },
   {
     minWords: new CountOption('Minimum words', 4)

@@ -6,8 +6,8 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "build": "webpack",
+    "prod": "webpack --env.production",
     "start": "webpack-dev-server",
-    "ghpages": "webpack --env.ghpages",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
