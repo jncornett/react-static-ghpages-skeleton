@@ -7,14 +7,6 @@ function randomChoice(seq) {
   return seq[Math.floor(Math.random() * seq.length)];
 }
 
-function generate(words, options) {
-  console.log('generate', words, options);
-  const pass = [];
-  for (let i = 0; i < options.minWords; i++)
-    pass.push(randomChoice(words));
-  return pass.join('');
-}
-
 const WordGenerator = new GeneratorInfo(
   'Word',
   function(options) {
