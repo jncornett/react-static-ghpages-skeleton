@@ -12,7 +12,7 @@ const rules = [
     use: {
       loader: 'babel-loader',
       options: {
-        presets: ['es2015', { modules: false }, 'react']
+        presets: ['es2015', 'stage-2', 'react']
       }
     }
   },
