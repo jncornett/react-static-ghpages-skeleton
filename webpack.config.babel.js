@@ -50,6 +50,9 @@ module.exports = (env) => {
   if (env.production) {
     plugins.push(new webpack.optimize.UglifyJsPlugin({ sourceMap: true }));
     plugins.push(new ExtractTextPlugin('style.css'));
+    plugins.push(new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify('production') }
+    }));
     rules.push({
       test: /\.css$/,
       use: ExtractTextPlugin.extract({
