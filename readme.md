@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jncornett/react-static-ghpages-skeleton.svg?branch=master)](https://travis-ci.org/jncornett/react-static-ghpages-skeleton)
+
 Quickstart
 ==========
 
