@@ -1,19 +1,26 @@
 {
-  "name": "webpack-react-skeleton",
+  "name": "react-static-ghpages-skeleton",
   "version": "1.0.0",
-  "description": "Skeleton project with Webpack+React (and babel, bootstrap, font-awesome)",
+  "description": "Skeleton project with Webpack+React (and babel, bootstrap, font-awesome, karma, jasmine)",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "build": "webpack",
-    "prod": "webpack --env.production",
-    "start": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:dev": "webpack",
+    "build:prod": "webpack --env.production",
+    "start:dev": "webpack-dev-server",
+    "start:test": "karma start",
+    "test": "karma start --single-run --browsers=PhantomJS",
+    "release": "npm run test && npm run clean && npm run build:prod"
   },
-  "keywords": ["webpack", "react", "skeleton"],
+  "keywords": [
+    "webpack",
+    "react",
+    "skeleton"
+  ],
   "author": "Joel Cornett <joel.cornett@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "karma-chrome-launcher": "^2.2.0",
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
@@ -26,21 +33,26 @@
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
-    "font-awesome": "^4.7.0",
     "font-awesome-webpack": "0.0.5-beta.2",
+    "font-awesome": "^4.7.0",
     "html-webpack-plugin": "^2.30.1",
+    "jasmine-core": "^2.7.0",
     "jquery": "^3.2.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-webpack": "^2.0.4",
+    "karma": "^1.7.0",
     "less": "^2.7.2",
     "node-sass": "^4.5.3",
     "popper.js": "^1.11.1",
-    "react": "^15.6.1",
     "react-copy-to-clipboard": "^5.0.0",
     "react-dom": "^15.6.1",
     "react-fontawesome": "^1.6.1",
     "react-hot-loader": "^3.0.0-beta.7",
+    "react": "^15.6.1",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.4.1"
   },
-  "repository": "https://github.com/jncornett/webpack-react-skeleton.git"
+  "repository": "https://github.com/jncornett/react-static-ghpages-skeleton.git"
 }

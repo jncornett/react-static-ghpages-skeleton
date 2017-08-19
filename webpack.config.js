@@ -39,7 +39,6 @@ function commonRules() {
 
 function commonPlugins() {
   return [
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     new webpack.ProvidePlugin({
       // for bootstrap 4
       $: 'jquery',
@@ -48,8 +47,7 @@ function commonPlugins() {
       Popper: ['popper.js', 'default'],
       // for react
       React: 'react'
-    }),
-    new HtmlWebpackPlugin({ template: 'src/index.ejs' })
+    })
   ];
 }
 
@@ -72,44 +70,77 @@ function buildConfig({ entry, rules, plugins }) {
   };
 }
 
+function getEnv(env) {
+  let envType = 'dev'; // default to dev build
+  if (env) {
+    // this flag is set by running `webpack --env.production`
+    if (env.production)
+      envType = 'prod';
+    // `webpack --env.test`
+    else if (env.test)
+      envType = 'test';
+    // `webpack --env.dev`
+    else if (env.dev)
+      envType = 'dev';
+    else
+      console.log(`Unrecognized build env (${env}), falling back to ${envType}`);
+  }
+  return envType;
+}
+
 module.exports = function(env) {
   const rules = commonRules();
   const plugins = commonPlugins();
   const entry = {
     index: ['./src/index.jsx']
   };
-  // This flag is set by running `webpack --env.production`
-  if (env && env.production) {
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
-      new ExtractTextPlugin('style.css'),
-      new webpack.DefinePlugin({
-        'process.env': { NODE_ENV: JSON.stringify('production') }
-      })
-    );
-    rules.css = {
-      test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader'
-      })
-    };
-  } else {
-    plugins.push(new webpack.HotModuleReplacementPlugin);
-    // Need this rule because we're not using ExtractTextPlugin in dev.
-    rules.css = {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader']
-    };
-    // stop babel from processing import statements so that HMR will work.
-    ['js', 'jsx'].forEach(type => {
-      const i = rules[type].use.options.presets.indexOf('es2015');
-      if (i != -1) {
-        rules[type].use.options.presets[i] = ['es2015', { modules: false }];
-      }
-      rules[type].use.options.plugins.push('react-hot-loader/babel');
-    });
-    entry.index.unshift('react-hot-loader/patch');
+  switch (getEnv(env)) {
+    case 'prod':
+      plugins.push(
+        new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
+        new ExtractTextPlugin('style.css'),
+        new webpack.DefinePlugin({
+          'process.env': { NODE_ENV: JSON.stringify('production') }
+        }),
+        new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
+        new HtmlWebpackPlugin({ template: 'src/index.ejs' })
+      );
+      rules.css = {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      };
+      break;
+    case 'test':
+      // Need this rule because we're not using ExtractTextPlugin in dev.
+      rules.css = {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      };
+      break;
+    case 'dev':
+      plugins.push(
+        new webpack.HotModuleReplacementPlugin,
+        new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
+        new HtmlWebpackPlugin({ template: 'src/index.ejs' })
+      );
+      // Need this rule because we're not using ExtractTextPlugin in dev.
+      rules.css = {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      };
+      // stop babel from processing import statements so that HMR will work.
+      ['js', 'jsx'].forEach(type => {
+        const i = rules[type].use.options.presets.indexOf('es2015');
+        if (i != -1) {
+          rules[type].use.options.presets[i] = ['es2015', { modules: false }];
+        }
+        rules[type].use.options.plugins.push('react-hot-loader/babel');
+      });
+      entry.index.unshift('react-hot-loader/patch');
+      break;
   }
   return buildConfig({ entry, rules, plugins });
 };

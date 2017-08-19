@@ -2,7 +2,7 @@ language: node_js
 node_js: node
 env:
 - NODE_ENV=production
-script: npm run prod
+script: npm run release
 deploy:
   provider: pages
   skip_cleanup: true
