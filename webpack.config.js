@@ -123,6 +123,7 @@ module.exports = function(env) {
     case 'dev':
       plugins.push(
         new webpack.HotModuleReplacementPlugin,
+        new webpack.NamedModulesPlugin,
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
         new HtmlWebpackPlugin({ template: 'src/index.ejs' })
       );

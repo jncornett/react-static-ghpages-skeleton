@@ -10,9 +10,3 @@ deploy:
   on:
     branch: master
   local_dir: dist
-- provider: releases
-  api_key: $GITHUB_OAUTH_TOKEN
-  file: dist/*
-  on:
-    branch: master
-    tags: false
