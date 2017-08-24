@@ -98,6 +98,7 @@ module.exports = function(env) {
     case 'prod':
       plugins.push(
         new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
+        // new webpack.optimize.AggressiveSplittingPlugin,
         new ExtractTextPlugin('style.css'),
         new webpack.EnvironmentPlugin({NODE_ENV: 'production'}),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
