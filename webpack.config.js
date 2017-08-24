@@ -63,6 +63,9 @@ function buildConfig({ entry, rules, plugins }) {
     module: {
       rules: Object.values(rules)
     },
+    resolve: {
+      extendsions: ['.js', '.jsx']
+    },
     devServer: {
       hot: true
     },
