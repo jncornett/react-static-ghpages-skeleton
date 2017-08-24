@@ -21,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "karma-chrome-launcher": "^2.2.0",
+    "npm-install-webpack-plugin": "^4.0.5",
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {

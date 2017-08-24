@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
 const webpack = require('webpack');
 
 function commonRules() {
@@ -121,6 +122,7 @@ module.exports = function(env) {
       break;
     case 'dev':
       plugins.push(
+        new NpmInstallPlugin,
         new webpack.HotModuleReplacementPlugin,
         new webpack.NamedModulesPlugin,
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
