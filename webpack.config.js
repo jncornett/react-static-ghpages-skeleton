@@ -99,9 +99,7 @@ module.exports = function(env) {
       plugins.push(
         new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
         new ExtractTextPlugin('style.css'),
-        new webpack.DefinePlugin({
-          'process.env': { NODE_ENV: JSON.stringify('production') }
-        }),
+        new webpack.EnvironmentPlugin({NODE_ENV: 'production'}),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
         new HtmlWebpackPlugin({ template: 'src/index.ejs' })
       );
