@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const NpmInstallPlugin = require('npm-install-webpack-plugin');
 const webpack = require('webpack');
 
 function commonRules() {
@@ -64,7 +63,7 @@ function buildConfig({ entry, rules, plugins }) {
       rules: Object.values(rules)
     },
     resolve: {
-      extendsions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx']
     },
     devServer: {
       hot: true
@@ -125,7 +124,7 @@ module.exports = function(env) {
       break;
     case 'dev':
       plugins.push(
-        new NpmInstallPlugin,
+        new require('npm-install-webpack-plugin'),
         new webpack.HotModuleReplacementPlugin,
         new webpack.NamedModulesPlugin,
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
